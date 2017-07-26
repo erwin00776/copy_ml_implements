@@ -6,11 +6,11 @@ import numpy as np
 def sigmoid(x):
   return 1.0 / (1 + np.exp(-x))
 
-
+"""
 def test_sigmoid():
   x = 0
   print("Input x: {}, the sigmoid value is: {}".format(x, sigmoid(x)))
-
+"""
 
 def main():
   # Prepare dataset
