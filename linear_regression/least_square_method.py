@@ -11,7 +11,7 @@ def main():
   instance_number = len(x_array)
 
   learning_rate = 0.01
-  epoch_number = 100
+  epoch_number = 1000
 
   w = 1.0
   b = 1.0
