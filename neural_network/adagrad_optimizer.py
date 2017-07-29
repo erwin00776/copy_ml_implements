@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import math
 import numpy as np
 
 
@@ -24,7 +23,7 @@ def main():
   # weights1 = 2 * np.random.random((3,1)) - 1
   weights1 = np.array([[1.0], [1.0], [1.0]])
 
-  epoch_number = 1000
+  epoch_number = 2000
   learning_rate = 0.01
 
   cache = np.array([[0.0], [0.0], [0.0]])

@@ -1,5 +1,6 @@
 import math
 import operator
+import json
 
 
 def calc_shannon_entropy(dataset):
@@ -31,7 +32,7 @@ def split_dataset(dataset, feature, value):
     for instance in dataset:
         if instance[feature] == value:
             new_instance = instance[: feature]
-            new_dataset.extend(instance[feature + 1:])
+            new_instance.extend(instance[feature + 1:])
             new_dataset.append(new_instance)
     return new_dataset
 
@@ -83,6 +84,20 @@ def create_decision_tree(dataset, header_names):
     return decision_tree
 
 
+def predict(decision_tree, test_header_names, test_dataset):
+    root_key = decision_tree.keys()[0]
+    subtree = decision_tree[root_key]
+
+    feature_index = test_header_names.index(root_key)
+    for key in subtree.keys():
+        if test_dataset[feature_index] == key:
+            if type(subtree[key]).__name__ == 'dict':
+                predict_label = predict(subtree[key], test_header_names, test_dataset)
+            else:
+                predict_label = subtree[key]
+    return predict_label
+
+
 if __name__ == '__main__':
     dataset = [[0, 0, 0, 0, 'N'], [0, 0, 0, 1, 'N'], [1, 0, 0, 0, 'Y'],
                [2, 1, 0, 0, 'Y'], [2, 2, 1, 0, 'Y'], [2, 2, 1, 1, 'N'], [1, 2, 1, 1, 'Y']]
@@ -90,4 +105,16 @@ if __name__ == '__main__':
 
     # mytest_calc_shannon_entropy()
     decision_tree = create_decision_tree(dataset, header_names)
-    print(decision_tree)
+    # print(decision_tree)
+    print(json.dumps(decision_tree, indent=2))
+
+    # Test
+    test_header_names = ['outlook', 'temperature', 'humidity', 'windy']
+    test_dataset = [2, 1, 0, 0]
+    result = predict(decision_tree, test_header_names, test_dataset)
+    print("Predict decision tree and get result: {}".format(result))
+
+    test_dataset1 = [2, 2, 1, 1]
+    print("Predict decision tree and get result: {}".format(predict(decision_tree,
+                                                                    test_header_names,
+                                                                    test_dataset1)))

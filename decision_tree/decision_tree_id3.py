@@ -178,6 +178,7 @@ def main():
   # Test
   header_names = ['outlook', 'temperature', 'humidity', 'windy']
   test_dataset = [2, 1, 0, 0]
+  test_dataset = [2, 1, 1, 1]
 
   result = predict(decision_tree, header_names, test_dataset)
   print("Predict decision tree and get result: {}".format(result))
