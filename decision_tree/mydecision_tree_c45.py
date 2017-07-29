@@ -46,17 +46,25 @@ def choose_best_feature_to_split(dataset):
     """
     feature_counts = len(dataset[0]) - 1
     best_feature = -1
-    best_after_split_entropy = 0.0
+    best_info_gain = 0.0
+    base_entropy = calc_shannon_entropy(dataset)
     for i in range(feature_counts):
         instance_with_one_feature = [instance[i] for instance in dataset]
         feature_value_set = set(instance_with_one_feature)
         after_split_entropy = 0.0
+        instrinsic_value = 0.0
         for value in feature_value_set:
             subset = split_dataset(dataset, i, value)
             probability = len(subset) / float(len(dataset))
             after_split_entropy += probability * calc_shannon_entropy(subset)
-        if after_split_entropy > best_after_split_entropy:
-            best_after_split_entropy = after_split_entropy
+            instrinsic_value += -probability * math.log(probability, 2)
+        info_gain = base_entropy - after_split_entropy
+        if instrinsic_value == 0:
+            continue
+        info_gain_ratio = info_gain / instrinsic_value
+
+        if info_gain_ratio > best_info_gain:
+            best_info_gain = info_gain_ratio
             best_feature = i
     return best_feature
 

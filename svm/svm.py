@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+
 def hinge(x):
   if 1 - x > 0:
     return 1 - x
